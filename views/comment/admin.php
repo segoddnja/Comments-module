@@ -66,6 +66,7 @@ $this->breadcrumbs=array(
                                     }
                                     return false;
                                 }',
+				'visible'=>'$data->status == Comment::STATUS_NOT_APPROWED',
                             ),
                         ),
                         'template'=>'{approve}{delete}',

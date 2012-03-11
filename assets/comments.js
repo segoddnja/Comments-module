@@ -73,6 +73,10 @@
         
     $.fn.commentsList.initDialog = function(id){
         var $dialog = $('#addCommentDialog-'+id);
+	$dialog.find('form').submit(function(){
+		$.fn.commentsList.postComment($dialog);
+		return false;
+	});
         $dialog.data('widgetID', id);
         $dialog.dialog({
             'title':$.fn.commentsList.settings[id]['dialogTitle'],

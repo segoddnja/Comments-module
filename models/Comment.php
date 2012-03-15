@@ -244,7 +244,7 @@ class Comment extends CActiveRecord {
         $criteria->compare('owner_name', $this->owner_name);
         $criteria->compare('owner_id', $this->owner_id);
         $criteria->compare('t.status', '<>'.self::STATUS_DELETED);
-        $criteria->order = 'parent_comment_id, create_time ';
+        $criteria->order = 't.parent_comment_id, t.create_time ';
         if($this->config['orderComments'] === 'ASC' || $this->config['orderComments'] === 'DESC')
             $criteria->order .= $this->config['orderComments'];
         //if premoderation is seted and current user isn't superuser

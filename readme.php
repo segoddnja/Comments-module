@@ -1,6 +1,25 @@
 This module helps to add comments to any instance of CActiveRecord.
-To add a comment to the model, you need to perform two steps.
-First step - configure the module in app config:
+To add a comment to the model, you need to perform the following steps.
+
+Add Comments table to your schema:
+
+CREATE TABLE IF NOT EXISTS `tbl_comments` (
+    `owner_name` varchar(50) NOT NULL,
+    `owner_id` int(12) NOT NULL,
+    `comment_id` int(12) NOT NULL AUTO_INCREMENT,
+    `parent_comment_id` int(12) DEFAULT NULL,
+    `creator_id` int(12) DEFAULT NULL,
+    `user_name` varchar(128) DEFAULT NULL, 
+    `user_email` varchar(128) DEFAULT NULL,
+    `comment_text` text,
+    `create_time` int(11) DEFAULT NULL,
+    `update_time` int(11) DEFAULT NULL,
+    `status` int(1) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`comment_id`),
+    KEY `owner_name` (`owner_name`,`owner_id`)
+    )
+
+Configure the module in app config:
 
 'modules'=>array(
     ...
@@ -47,7 +66,7 @@ First step - configure the module in app config:
     ...
 ),
 
-Second step - display ECommentListWidget in view for displaying commentable models
+Display ECommentListWidget in view for displaying commentable models
 
 $this->widget('comments.widgets.ECommentsListWidget', array(
     'model' => $model,

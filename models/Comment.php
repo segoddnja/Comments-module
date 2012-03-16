@@ -32,8 +32,8 @@ class Comment extends CActiveRecord {
     /*
      * Comment statuses
      */
-    const STATUS_NOT_APPROWED = 0;
-    const STATUS_APPROWED = 1;
+    const STATUS_NOT_APPROVED = 0;
+    const STATUS_APPROVED = 1;
     const STATUS_DELETED = 2;
 
     /*
@@ -58,8 +58,8 @@ class Comment extends CActiveRecord {
     private $_ownerModel = false;
     
     private $_statuses = array(
-        self::STATUS_NOT_APPROWED=>'New',
-        self::STATUS_APPROWED=>'Approved',
+        self::STATUS_NOT_APPROVED=>'New',
+        self::STATUS_APPROVED=>'Approved',
         self::STATUS_DELETED=>'Deleted'
     );
 
@@ -244,12 +244,12 @@ class Comment extends CActiveRecord {
         $criteria->compare('owner_name', $this->owner_name);
         $criteria->compare('owner_id', $this->owner_id);
         $criteria->compare('t.status', '<>'.self::STATUS_DELETED);
-        $criteria->order = 'parent_comment_id, create_time ';
+        $criteria->order = 't.parent_comment_id, t.create_time ';
         if($this->config['orderComments'] === 'ASC' || $this->config['orderComments'] === 'DESC')
             $criteria->order .= $this->config['orderComments'];
         //if premoderation is seted and current user isn't superuser
         if($this->config['premoderate'] === true && $this->evaluateExpression($this->config['isSuperuser']) === false)
-            $criteria->compare('t.status', self::STATUS_APPROWED);
+            $criteria->compare('t.status', self::STATUS_APPROVED);
         $relations = $this->relations();
         //if User model has been configured
         if(isset($relations['user']))
@@ -359,7 +359,7 @@ class Comment extends CActiveRecord {
      */
     public function setApproved()
     {
-        $this->status = self::STATUS_APPROWED;
+        $this->status = self::STATUS_APPROVED;
         return $this->update();
             
     }
@@ -408,7 +408,7 @@ class Comment extends CActiveRecord {
     public function beforeSave() {
         //if current user is superuser, then automoderate comment and it's new comment
         if($this->isNewRecord === true && $this->evaluateExpression($this->config['isSuperuser']) === true)
-            $this->status = self::STATUS_APPROWED;
+            $this->status = self::STATUS_APPROVED;
         return parent::beforeSave();
     }
 

@@ -1,4 +1,13 @@
-This module helps to add comments to any instance of CActiveRecord.
+Yii module to add comments to any instance of CActiveRecord.
+
+Features
+------------
+-Comments administration
+-Threaded comments
+-Each instance with their own configuration
+
+Installation
+--------------
 To add a comment to the model, you need to perform the following steps.
 
 Add Comments table to your schema:

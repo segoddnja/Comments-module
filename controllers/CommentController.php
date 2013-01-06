@@ -56,8 +56,12 @@ class CommentController extends Controller
 			),
 			array('allow',
 				'actions'=>array('admin', 'delete', 'approve'),
-				'users'=>array('admin'),
+                'expression' => Yii::app()->getModule('comments')->isAdminExpr,
 			),
+			array('allow',
+				'actions'=>array('admin', 'delete', 'approve'),
+				'users'=>array('admin'),
+            ),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),

@@ -44,6 +44,12 @@ class CommentsModule extends CWebModule
          * @var userSettings
          */
         public $userConfig;
+
+        /**
+         * Expression to access controller action
+         * @var isAdminExpr
+         */
+        public $isAdminExpr = 'false';
         
         /**
          * Default config for model
